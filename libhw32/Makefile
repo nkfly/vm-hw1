@@ -1,0 +1,1 @@
+/home/nkfly/qemu-0.13.0/Makefile.hw
