@@ -1,4 +1,4 @@
-cache-utils.o: /home/nkfly/qemu-0.13.0/cache-utils.c \
- /home/nkfly/qemu-0.13.0/cache-utils.h
+cache-utils.o: /home/nkfly/vm-hw1/cache-utils.c \
+ /home/nkfly/vm-hw1/cache-utils.h
 
-/home/nkfly/qemu-0.13.0/cache-utils.h:
+/home/nkfly/vm-hw1/cache-utils.h:

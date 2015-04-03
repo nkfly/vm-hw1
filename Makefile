@@ -1,13 +1,13 @@
 # Makefile for QEMU.
 
 GENERATED_HEADERS = config-host.h
-
+SRC_PATH = .
 ifneq ($(wildcard config-host.mak),)
 # Put the all: rule here so that config-host.mak can contain dependencies.
 all: build-all
 include config-host.mak
-include $(SRC_PATH)/rules.mak
-config-host.mak: $(SRC_PATH)/configure
+include ./rules.mak
+config-host.mak: ./configure
 	@echo $@ is out-of-date, running configure
 	@sed -n "/.*Configured with/s/[^:]*: //p" $@ | sh
 else
@@ -76,7 +76,7 @@ subdir-%: $(GENERATED_HEADERS)
 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $* V="$(V)" TARGET_DIR="$*/" all,)
 
 ifneq ($(wildcard config-host.mak),)
-include $(SRC_PATH)/Makefile.objs
+include ./Makefile.objs
 endif
 
 $(common-obj-y): $(GENERATED_HEADERS)

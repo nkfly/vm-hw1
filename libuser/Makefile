@@ -1,1 +1,1 @@
-/home/nkfly/qemu-0.13.0/Makefile.user
+/home/nkfly/vm-hw1/Makefile.user

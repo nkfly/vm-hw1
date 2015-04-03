@@ -1,6 +1,6 @@
-envlist.o: /home/nkfly/qemu-0.13.0/envlist.c \
- /home/nkfly/qemu-0.13.0/qemu-queue.h /home/nkfly/qemu-0.13.0/envlist.h
+envlist.o: /home/nkfly/vm-hw1/envlist.c /home/nkfly/vm-hw1/qemu-queue.h \
+ /home/nkfly/vm-hw1/envlist.h
 
-/home/nkfly/qemu-0.13.0/qemu-queue.h:
+/home/nkfly/vm-hw1/qemu-queue.h:
 
-/home/nkfly/qemu-0.13.0/envlist.h:
+/home/nkfly/vm-hw1/envlist.h:

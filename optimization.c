@@ -67,9 +67,10 @@ __thread int update_ibtc;
  Otherwise, you can return the optimization_ret_addr to return to the emulation engine.
  */
 struct ibtc_table ibtc;
-target_ulong lasttime_guest_eip
+target_ulong lasttime_guest_eip;
 void *helper_lookup_ibtc(target_ulong guest_eip)
 {
+	//print("in");
 	int index = guest_eip % IBTC_CACHE_SIZE;
 	lasttime_guest_eip = guest_eip;
 	if (ibtc.htable[index].tb == NULL) {
@@ -91,8 +92,9 @@ void *helper_lookup_ibtc(target_ulong guest_eip)
  */
 void update_ibtc_entry(TranslationBlock *tb)
 {
-	int index = guest_eip % IBTC_CACHE_SIZE;
+	int index = lasttime_guest_eip % IBTC_CACHE_SIZE;
 	ibtc.htable[index].tb = tb;
+	ibtc.htable[index].guest_eip = lasttime_guest_eip;
 }
 
 /*
@@ -117,9 +119,9 @@ static inline void ibtc_init(CPUState *env)
 int init_optimizations(CPUState *env)
 {
     file_pointer = fopen("_host.log","w");
-    char output[100];
-    sprintf(output, "%d", IBTC_CACHE_SIZE);
-    print(output);
+    //char output[100];
+    //sprintf(output, "%d", IBTC_CACHE_SIZE);
+    //print(output);
     shack_init(env);
     ibtc_init(env);
 

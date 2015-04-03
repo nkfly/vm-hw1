@@ -1,1 +1,1 @@
-/home/nkfly/qemu-0.13.0/Makefile.dis
+/home/nkfly/vm-hw1/Makefile.dis

@@ -1,1 +1,1 @@
-/home/nkfly/qemu-0.13.0/Makefile.target
+/home/nkfly/vm-hw1/Makefile.target

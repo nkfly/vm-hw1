@@ -1,4 +1,4 @@
-tcg-runtime.o: /home/nkfly/qemu-0.13.0/tcg-runtime.c \
- /home/nkfly/qemu-0.13.0/tcg/tcg-runtime.h
+tcg-runtime.o: /home/nkfly/vm-hw1/tcg-runtime.c \
+ /home/nkfly/vm-hw1/tcg/tcg-runtime.h
 
-/home/nkfly/qemu-0.13.0/tcg/tcg-runtime.h:
+/home/nkfly/vm-hw1/tcg/tcg-runtime.h:
