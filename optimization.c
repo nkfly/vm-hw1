@@ -73,11 +73,11 @@ void *helper_lookup_ibtc(target_ulong guest_eip)
 	//print("in");
 	int index = guest_eip % IBTC_CACHE_SIZE;
 	lasttime_guest_eip = guest_eip;
-	if (ibtc.htable[index].tb == NULL) {
-		return optimization_ret_addr;	
-	}else if (ibtc.htable[index].tb != NULL && ibtc.htable[index].guest_eip != guest_eip){
-		return optimization_ret_addr;
-	}else if (ibtc.htable[index].tb != NULL && ibtc.htable[index].guest_eip == guest_eip){
+	//if (ibtc.htable[index].tb == NULL) {
+	//	return optimization_ret_addr;	
+	//}else if (ibtc.htable[index].tb != NULL && ibtc.htable[index].guest_eip != guest_eip){
+	//	return optimization_ret_addr;
+	if (ibtc.htable[index].tb != NULL && ibtc.htable[index].guest_eip == guest_eip){
 		return ibtc.htable[index].tb;
 	}
     return optimization_ret_addr;
