@@ -19,6 +19,8 @@ list_t *shadow_hash_list;
 
 static inline void shack_init(CPUState *env)
 {
+	env->shack = (uint64_t *)malloc(SHACK_SIZE * sizeof(uint64_t));
+	head_to_shadow_pair_node = NULL;
 }
 
 /*
@@ -27,6 +29,9 @@ static inline void shack_init(CPUState *env)
  */
 void shack_set_shadow(CPUState *env, target_ulong guest_eip, unsigned long *host_eip)
 {
+	struct shadow_pair_node *top = (struct shadow_pair_node *)malloc(sizeof(struct shadow_pair_node));
+	top->next = head_to_shadow_pair_node;
+	head_to_shadow_pair_node = top;
 }
 
 /*

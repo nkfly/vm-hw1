@@ -49,6 +49,15 @@ struct shadow_pair
     unsigned long *shadow_slot;
 };
 
+struct shadow_pair_node *head_to_shadow_pair_node;
+
+struct shadow_pair_node
+{
+    target_ulong guest_eip;
+    unsigned long *host_eip
+    struct shadow_pair_node *next;
+};
+
 void shack_set_shadow(CPUState *env, target_ulong guest_eip, unsigned long *host_eip);
 inline void insert_unresolved_eip(CPUState *env, target_ulong next_eip, unsigned long *slot);
 unsigned long lookup_shadow_ret_addr(CPUState *env, target_ulong pc);
