@@ -49,12 +49,11 @@ struct shadow_pair
     unsigned long *shadow_slot;
 };
 
-struct shadow_pair_node *head_to_shadow_pair_node;
 
 struct shadow_pair_node
 {
     target_ulong guest_eip;
-    unsigned long *host_eip
+    unsigned long *host_eip;
     struct shadow_pair_node *next;
 };
 
