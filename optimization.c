@@ -106,7 +106,8 @@ void *helper_pop_shack(target_ulong guest_eip)
 			TranslationBlock *tb = shadow_ptr->tb;
 			head_to_shack = shadow_ptr->next;
 			free(shadow_ptr);
-			return tb;
+			print("ff before!\n");
+			return optimization_ret_addr;
 
 		}else {
 			print("weird!\n");
