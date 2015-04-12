@@ -102,9 +102,10 @@ void *helper_pop_shack(target_ulong guest_eip)
 	while (shadow_ptr != NULL){
 		if (shadow_ptr->guest_eip == guest_eip){
 			head_to_shack = shadow_ptr->next;
+			unsigned long *h_eip = shadow_ptr->host_eip;
 			free(shadow_ptr);
 			// print("ff before!\n");
-			return shadow_ptr->host_eip;
+			return h_eip;
 
 		}else {
 			// print("weird!\n");
