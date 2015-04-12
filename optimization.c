@@ -79,6 +79,17 @@ void push_shack(CPUState *env, TCGv_ptr cpu_env, target_ulong next_eip)
 void pop_shack(TCGv_ptr cpu_env, TCGv next_eip)
 {
 	target_ulong n_eip = next_eip;
+	struct shadow_pair_node *shadow_ptr = head_to_shack;
+
+	while (shadow_ptr != NULL){
+		if (shadow_ptr->guest_eip == n_eip){
+			
+			print("hello world");
+			break;
+
+		}
+		shadow_ptr = shadow_ptr->next;
+	}
 
 }
 
