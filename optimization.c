@@ -32,7 +32,7 @@ static inline void shack_init(CPUState *env)
 void shack_set_shadow(CPUState *env, target_ulong guest_eip, unsigned long *host_eip)
 {
 	// struct shadow_pair_node *top = (struct shadow_pair_node *)malloc(sizeof(struct shadow_pair_node));
-	top->next = head_to_shadow_pair_node;
+	head_to_shadow_pair_node->next = head_to_shadow_pair_node;
 	head_to_shadow_pair_node = top;
 }
 
