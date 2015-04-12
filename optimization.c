@@ -21,7 +21,7 @@ struct shadow_pair_node *head_to_shadow_pair_node;
 
 static inline void shack_init(CPUState *env)
 {
-	env->shack = (uint64_t *)malloc(SHACK_SIZE * sizeof(uint64_t));
+	//env->shack = (uint64_t *)malloc(SHACK_SIZE * sizeof(uint64_t));
 	head_to_shadow_pair_node = NULL;
 }
 
@@ -31,8 +31,10 @@ static inline void shack_init(CPUState *env)
  */
 void shack_set_shadow(CPUState *env, target_ulong guest_eip, unsigned long *host_eip)
 {
-	// struct shadow_pair_node *top = (struct shadow_pair_node *)malloc(sizeof(struct shadow_pair_node));
-	head_to_shadow_pair_node->next = head_to_shadow_pair_node;
+	struct shadow_pair_node *top = (struct shadow_pair_node *)malloc(sizeof(struct shadow_pair_node));
+	top->guest_eip = guest_eip;
+	top->host_eip = host_eip;
+	top->next = head_to_shadow_pair_node;
 	head_to_shadow_pair_node = top;
 }
 
@@ -51,6 +53,7 @@ void helper_shack_flush(CPUState *env)
 void push_shack(CPUState *env, TCGv_ptr cpu_env, target_ulong next_eip)
 {	
 	struct shadow_pair_node *shadow_pair_node_ptr = head_to_shadow_pair_node;
+	//print("push shack");
 	while (shadow_pair_node_ptr != NULL){
 		if (shadow_pair_node_ptr-> guest_eip == next_eip){
 			print("yoyoman");
