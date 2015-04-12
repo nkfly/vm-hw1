@@ -78,7 +78,8 @@ void push_shack(CPUState *env, TCGv_ptr cpu_env, target_ulong next_eip)
  */
 void pop_shack(TCGv_ptr cpu_env, TCGv next_eip)
 {
-	
+	target_ulong n_eip = next_eip;
+
 }
 
 /*
