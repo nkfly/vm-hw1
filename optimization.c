@@ -18,11 +18,13 @@ FILE *file_pointer;
 list_t *shadow_hash_list;
 
 struct shadow_pair_node *head_to_shadow_pair_node;
+struct shadow_pair_node *head_to_shack;
 
 static inline void shack_init(CPUState *env)
 {
 	//env->shack = (uint64_t *)malloc(SHACK_SIZE * sizeof(uint64_t));
 	head_to_shadow_pair_node = NULL;
+	head_to_shack = NULL;
 }
 
 /*
@@ -55,14 +57,18 @@ void push_shack(CPUState *env, TCGv_ptr cpu_env, target_ulong next_eip)
 	struct shadow_pair_node *shadow_pair_node_ptr = head_to_shadow_pair_node;
 	//print("push shack");
 	while (shadow_pair_node_ptr != NULL){
-		if (shadow_pair_node_ptr-> guest_eip == next_eip){
+		if (shadow_pair_node_ptr->guest_eip == next_eip){
+			struct shadow_pair_node *top = (struct shadow_pair_node *)malloc(sizeof(struct shadow_pair_node));
+			top->guest_eip = next_eip;
+			top->host_eip = shadow_pair_node_ptr->host_eip;
+			top->next = head_to_shack;
+			head_to_shack = top;
 			print("yoyoman");
+			break;
 
 		}
 		shadow_pair_node_ptr = shadow_pair_node_ptr->next;
-
 	}
- 
 
 }
 
@@ -72,6 +78,7 @@ void push_shack(CPUState *env, TCGv_ptr cpu_env, target_ulong next_eip)
  */
 void pop_shack(TCGv_ptr cpu_env, TCGv next_eip)
 {
+	
 }
 
 /*
