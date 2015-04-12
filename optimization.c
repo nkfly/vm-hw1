@@ -97,7 +97,7 @@ void pop_shack(TCGv_ptr cpu_env, target_ulong next_eip)
 
 }
 
-void *helper_pop_shack(target_ulong guest_eip, DisasContext *s)
+void *helper_pop_shack(DisasContext *s, target_ulong guest_eip)
 {
 	struct shadow_pair_node *shadow_ptr = head_to_shack;
 

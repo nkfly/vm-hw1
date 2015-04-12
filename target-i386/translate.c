@@ -205,7 +205,7 @@ static inline void gen_shack_stub(DisasContext *s, TCGv shack_guest_eip)
     if (s->cc_op != CC_OP_DYNAMIC)
         gen_op_set_cc_op(s->cc_op);
 
-    gen_helper_pop_shack(shack_host_eip, shack_guest_eip, s);
+    gen_helper_pop_shack(shack_host_eip, s, shack_guest_eip);
     *gen_opc_ptr++ = INDEX_op_jmp;
     *gen_opparam_ptr++ = GET_TCGV_PTR(shack_host_eip);
 
