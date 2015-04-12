@@ -146,17 +146,6 @@ dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
 #elif GEN_HELPER == 1
 /* Gen functions.  */
 
-#define DEF_MY_HELPER_FLAGS(name, flags, ret, t1, void) \
-static inline void glue(gen_helper_, name)(dh_retvar_decl(ret) dh_arg_decl(t1, 1), \
-    dh_arg_decl(void, 2)) \
-{ \
-  TCGArg args[2]; \
-  int sizemask = 0; \
-  dh_sizemask(ret, 0); \
-  dh_arg(t1, 1); \
-  dh_arg(void, 2); \
-  tcg_gen_helperN(HELPER(name), flags, sizemask, dh_retvar(ret), 2, args); \
-}
 
 #define DEF_HELPER_FLAGS_0(name, flags, ret) \
 static inline void glue(gen_helper_, name)(dh_retvar_decl0(ret)) \

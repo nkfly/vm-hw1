@@ -100,7 +100,9 @@ int cpu_gen_code(CPUState *env, TranslationBlock *tb, int *gen_code_size_ptr)
 #endif
 
 #ifdef ENABLE_OPTIMIZATION
-    shack_set_shadow(env, tb->pc, (unsigned long *)tb->tc_ptr, tb);
+    TranslationBlock *mytb = tb_find_slow(tb->pc,tb->cs_base,tb->flags);
+    shack_set_shadow(env, tb->pc, (unsigned long *)tb->tc_ptr, mytb);
+
 #endif
 
 #ifdef DEBUG_DISAS
