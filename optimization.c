@@ -76,9 +76,8 @@ void push_shack(CPUState *env, TCGv_ptr cpu_env, target_ulong next_eip)
  * pop_shack()
  *  Pop next host eip from shadow stack.
  */
-void pop_shack(TCGv_ptr cpu_env, TCGv next_eip)
+void pop_shack(TCGv_ptr cpu_env, target_ulong n_eip)
 {
-	target_ulong n_eip = next_eip;
 	struct shadow_pair_node *shadow_ptr = head_to_shack;
 	int i = 0;
 
