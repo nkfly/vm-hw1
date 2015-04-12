@@ -80,11 +80,14 @@ void pop_shack(TCGv_ptr cpu_env, TCGv next_eip)
 {
 	target_ulong n_eip = next_eip;
 	struct shadow_pair_node *shadow_ptr = head_to_shack;
+	int i = 0;
 
 	while (shadow_ptr != NULL){
+			char a[100];
+			sprintf(a, "%d\n", i++);
+			print(a);
 		if (shadow_ptr->guest_eip == n_eip){
-			
-			print("hello world");
+			print("yo");
 			break;
 
 		}
