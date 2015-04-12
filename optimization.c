@@ -31,12 +31,11 @@ static inline void shack_init(CPUState *env)
  * shack_set_shadow()
  *  Insert a guest eip to host eip pair if it is not yet created.
  */
-void shack_set_shadow(CPUState *env, target_ulong guest_eip, unsigned long *host_eip, TranslationBlock *tb)
+void shack_set_shadow(CPUState *env, target_ulong guest_eip, unsigned long *host_eip)
 {
 	struct shadow_pair_node *top = (struct shadow_pair_node *)malloc(sizeof(struct shadow_pair_node));
 	top->guest_eip = guest_eip;
 	top->host_eip = host_eip;
-	top->tb = tb;
 	top->next = head_to_shadow_pair_node;
 	head_to_shadow_pair_node = top;
 }
@@ -62,10 +61,9 @@ void push_shack(CPUState *env, TCGv_ptr cpu_env, target_ulong next_eip)
 			struct shadow_pair_node *top = (struct shadow_pair_node *)malloc(sizeof(struct shadow_pair_node));
 			top->guest_eip = next_eip;
 			top->host_eip = shadow_pair_node_ptr->host_eip;
-			top->tb = shadow_pair_node_ptr->tb;
 			top->next = head_to_shack;
 			head_to_shack = top;
-			print("yoyoman");
+			// print("yoyoman");
 			break;
 
 		}
@@ -105,11 +103,11 @@ void *helper_pop_shack(target_ulong guest_eip)
 		if (shadow_ptr->guest_eip == guest_eip){
 			head_to_shack = shadow_ptr->next;
 			free(shadow_ptr);
-			print("ff before!\n");
+			// print("ff before!\n");
 			return shadow_ptr->host_eip;
 
 		}else {
-			print("weird!\n");
+			// print("weird!\n");
 			struct shadow_pair_node *free_tmp = shadow_ptr;
 			head_to_shack = shadow_ptr->next;
 			shadow_ptr = shadow_ptr->next;
