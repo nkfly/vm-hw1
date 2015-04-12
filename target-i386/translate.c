@@ -198,9 +198,26 @@ static inline void gen_ibtc_stub(DisasContext *s, TCGv ibtc_guest_eip)
 
     tcg_temp_free_ptr(ibtc_host_eip);
 }
+static inline void gen_shack_stub(DisasContext *s, TCGv shack_guest_eip)
+{
+    TCGv_ptr shack_host_eip = tcg_temp_new_ptr();
+
+    if (s->cc_op != CC_OP_DYNAMIC)
+        gen_op_set_cc_op(s->cc_op);
+
+    gen_helper_pop_shack(shack_host_eip, shack_guest_eip);
+    *gen_opc_ptr++ = INDEX_op_jmp;
+    *gen_opparam_ptr++ = GET_TCGV_PTR(shack_host_eip);
+
+    tcg_temp_free_ptr(shack_host_eip);
+}
 #else
 static inline void gen_ibtc_stub(DisasContext *s, TCGv ibtc_guest_eip)
 {
+}
+static inline void gen_shack_stub(DisasContext *s, TCGv shack_guest_eip)
+{
+   
 }
 #endif
 
@@ -6226,7 +6243,8 @@ static target_ulong disas_insn(CPUState *env, DisasContext *s, target_ulong pc_s
         gen_op_jmp_T0();
 
 #ifdef ENABLE_OPTIMIZATION
-        next_eip = s->pc - s->cs_base;
+        // next_eip = s->pc - s->cs_base;
+        gen_helper_pop_shack(s, cpu_T[0]);
         pop_shack(cpu_env, next_eip);
 #endif
 
@@ -6240,7 +6258,8 @@ static target_ulong disas_insn(CPUState *env, DisasContext *s, target_ulong pc_s
         gen_op_jmp_T0();
 
 #ifdef ENABLE_OPTIMIZATION
-        next_eip = s->pc - s->cs_base;
+        // next_eip = s->pc - s->cs_base;
+        gen_helper_pop_shack(s, cpu_T[0]);
         pop_shack(cpu_env, next_eip);
 #endif
 

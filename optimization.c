@@ -78,21 +78,37 @@ void push_shack(CPUState *env, TCGv_ptr cpu_env, target_ulong next_eip)
  */
 void pop_shack(TCGv_ptr cpu_env, target_ulong next_eip)
 {
+	// struct shadow_pair_node *shadow_ptr = head_to_shack;
+	// int i = 0;
+
+	// while (shadow_ptr != NULL){
+	// 		char a[100];
+	// 		sprintf(a, "%d\n", i++);
+	// 		print(a);
+	// 	if (shadow_ptr->guest_eip == next_eip){
+	// 		print("yo");
+	// 		break;
+
+	// 	}
+	// 	shadow_ptr = shadow_ptr->next;
+	// }
+
+}
+
+void *helper_pop_shack(target_ulong guest_eip)
+{
 	struct shadow_pair_node *shadow_ptr = head_to_shack;
 	int i = 0;
 
 	while (shadow_ptr != NULL){
-			char a[100];
-			sprintf(a, "%d\n", i++);
-			print(a);
-		if (shadow_ptr->guest_eip == next_eip){
+		if (shadow_ptr->guest_eip == guest_eip){
 			print("yo");
 			break;
 
 		}
 		shadow_ptr = shadow_ptr->next;
 	}
-
+    return optimization_ret_addr;
 }
 
 /*
