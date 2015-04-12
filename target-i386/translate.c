@@ -6226,8 +6226,8 @@ static target_ulong disas_insn(CPUState *env, DisasContext *s, target_ulong pc_s
         gen_op_jmp_T0();
 
 #ifdef ENABLE_OPTIMIZATION
-        target_ulong n_eip = s->pc - s->cs_base;
-        pop_shack(cpu_env, n_eip);
+        next_eip = s->pc - s->cs_base;
+        pop_shack(cpu_env, next_eip);
 #endif
 
         gen_eob(s);
@@ -6240,8 +6240,8 @@ static target_ulong disas_insn(CPUState *env, DisasContext *s, target_ulong pc_s
         gen_op_jmp_T0();
 
 #ifdef ENABLE_OPTIMIZATION
-        target_ulong n_eip = s->pc - s->cs_base;
-        pop_shack(cpu_env, n_eip);
+        next_eip = s->pc - s->cs_base;
+        pop_shack(cpu_env, next_eip);
 #endif
 
         gen_eob(s);
