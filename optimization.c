@@ -97,17 +97,17 @@ void pop_shack(TCGv_ptr cpu_env, target_ulong next_eip)
 
 }
 
-void *helper_pop_shack(target_ulong guest_eip)
+void *helper_pop_shack(target_ulong guest_eip, DisasContext *s)
 {
 	struct shadow_pair_node *shadow_ptr = head_to_shack;
 
 	while (shadow_ptr != NULL){
 		if (shadow_ptr->guest_eip == guest_eip){
-			TranslationBlock *tb = shadow_ptr->tb;
+			TranslationBlock *tb = tb_find_slow(guest_eip,s->cs_base,s->flags);
 			head_to_shack = shadow_ptr->next;
 			free(shadow_ptr);
 			print("ff before!\n");
-			return optimization_ret_addr;
+			return tb;
 
 		}else {
 			print("weird!\n");
