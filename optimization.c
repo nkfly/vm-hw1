@@ -55,16 +55,21 @@ void helper_shack_flush(CPUState *env)
  * push_shack()
  *  Push next guest eip into shadow stack.
  */
+
+
 void push_shack(CPUState *env, TCGv_ptr cpu_env, target_ulong next_eip)
 {	struct shadow_pair_node *ptr = head_to_cache;
 	while (ptr != NULL){
-	if (ptr->guest_eip == next_eip){
-	struct shadow_pair_node *top = head_to_shack[shack_index];
-	top->guest_eip = next_eip;
-	top->host_eip = ptr->host_eip;
-	top->next = 
-}
-}
+		if (ptr->guest_eip == next_eip){
+			struct shadow_pair_node *top = head_to_shack[shack_index];
+			top->guest_eip = next_eip;
+			top->host_eip = ptr->host_eip;
+			shack_index = (shack_index+1)%SHACK_SIZE;
+
+			return ;
+		}
+		ptr = ptr->next;
+	}
 	struct shadow_pair_node *shadow_pair_node_ptr = head_to_shadow_pair_node;
 	//print("push shack");
 	while (shadow_pair_node_ptr != NULL){
@@ -73,8 +78,13 @@ void push_shack(CPUState *env, TCGv_ptr cpu_env, target_ulong next_eip)
 			struct shadow_pair_node *top = head_to_shack[shack_index];
 			top->guest_eip = next_eip;
 			top->host_eip = shadow_pair_node_ptr->host_eip;
-			top->next = head_to_shack;
-			head_to_shack = top;
+
+			struct shadow_pair_node *cache_node = (struct shadow_pair_node *)malloc(sizeof(struct shadow_pair_node));
+			cache_node->guest_eip = next_eip;
+			cache_node->host_eip = shadow_pair_node_ptr->host_eip;
+			cache_node->next = head_to_cache;
+			head_to_cache = cache_node;
+
 			shack_index = (shack_index+1)%SHACK_SIZE;
 			// print("yoyoman");
 			return;
@@ -112,20 +122,16 @@ void *helper_pop_shack(target_ulong guest_eip)
 {
 	struct shadow_pair_node *shadow_ptr = head_to_shack;
 
-	while (shadow_ptr != NULL){
+	while (shack_index > 0){
+		shadow_ptr = head_to_shack[shack_index-1]
 		if (shadow_ptr->guest_eip == guest_eip){
-			head_to_shack = shadow_ptr->next;
 			unsigned long *h_eip = shadow_ptr->host_eip;
-			free(shadow_ptr);
+			shack_index = shack_index-1;
 			// print("ff before!\n");
 			return h_eip;
 
 		}else {
-			// print("weird!\n");
-			struct shadow_pair_node *free_tmp = shadow_ptr;
-			head_to_shack = shadow_ptr->next;
-			shadow_ptr = shadow_ptr->next;
-			free(free_tmp);
+			shack_index = shack_index -1;
 		}
 	}
     return optimization_ret_addr;
