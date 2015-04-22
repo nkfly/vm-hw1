@@ -7,7 +7,7 @@
 #define __OPTIMIZATION_H
 
 /* Comment the next line to disable optimizations. */
-//#define ENABLE_OPTIMIZATION
+#define ENABLE_OPTIMIZATION
 
 /*
  * Link list facilities

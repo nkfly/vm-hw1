@@ -26,7 +26,7 @@ static inline void shack_init(CPUState *env)
 {
 	//env->shack = (uint64_t *)malloc(SHACK_SIZE * sizeof(uint64_t));
 	head_to_shadow_pair_node = NULL;
-	head_to_cache = NULL
+	head_to_cache = NULL;
 	head_to_shack = (struct shadow_pair_node *)malloc(SHACK_SIZE*sizeof(struct shadow_pair_node));
 }
 
@@ -61,9 +61,9 @@ void push_shack(CPUState *env, TCGv_ptr cpu_env, target_ulong next_eip)
 {	struct shadow_pair_node *ptr = head_to_cache;
 	while (ptr != NULL){
 		if (ptr->guest_eip == next_eip){
-			struct shadow_pair_node *top = head_to_shack[shack_index];
-			top->guest_eip = next_eip;
-			top->host_eip = ptr->host_eip;
+			struct shadow_pair_node top = head_to_shack[shack_index];
+			top.guest_eip = next_eip;
+			top.host_eip = ptr->host_eip;
 			shack_index = (shack_index+1)%SHACK_SIZE;
 
 			return ;
@@ -75,9 +75,9 @@ void push_shack(CPUState *env, TCGv_ptr cpu_env, target_ulong next_eip)
 	while (shadow_pair_node_ptr != NULL){
 		if (shadow_pair_node_ptr->guest_eip == next_eip){
 			
-			struct shadow_pair_node *top = head_to_shack[shack_index];
-			top->guest_eip = next_eip;
-			top->host_eip = shadow_pair_node_ptr->host_eip;
+			struct shadow_pair_node top = head_to_shack[shack_index];
+			top.guest_eip = next_eip;
+			top.host_eip = shadow_pair_node_ptr->host_eip;
 
 			struct shadow_pair_node *cache_node = (struct shadow_pair_node *)malloc(sizeof(struct shadow_pair_node));
 			cache_node->guest_eip = next_eip;
@@ -120,12 +120,12 @@ void pop_shack(TCGv_ptr cpu_env, target_ulong next_eip)
 
 void *helper_pop_shack(target_ulong guest_eip)
 {
-	struct shadow_pair_node *shadow_ptr = head_to_shack;
+	//struct shadow_pair_node shadow_ptr = head_to_shack;
 
 	while (shack_index > 0){
-		shadow_ptr = head_to_shack[shack_index-1]
-		if (shadow_ptr->guest_eip == guest_eip){
-			unsigned long *h_eip = shadow_ptr->host_eip;
+		struct shadow_pair_node shadow_ptr = head_to_shack[shack_index-1];
+		if (shadow_ptr.guest_eip == guest_eip){
+			unsigned long *h_eip = shadow_ptr.host_eip;
 			shack_index = shack_index-1;
 			// print("ff before!\n");
 			return h_eip;
